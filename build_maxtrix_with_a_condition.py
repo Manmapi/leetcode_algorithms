@@ -24,22 +24,24 @@ class Solution:
             if len(result) != k:
                 return []
             return result 
-                    
         for row in rowConditions:
             row[0], row[1] = row[0] - 1, row[1] -1
         for col in colConditions:
             col[0], col[1] = col[0] - 1, col[1] -1
+
         topo_row = topo_sort(rowConditions, k)
-        topo_row = [x + 1 for x in topo_row]
         topo_col = topo_sort(colConditions, k)
-        topo_col = [x + 1 for x in topo_col]
+        
         if not topo_row or not topo_col:
             return []
-        row_index = dict()
+
         for i in range(k):
-            row_index[topo_row[i]] = i
+            topo_row[i] = topo_row[i] + 1
+            topo_col[i] = topo_col[i] + 1
+        row_index = dict()
         col_index = dict()
         for i in range(k):
+            row_index[topo_row[i]] = i
             col_index[topo_col[i]] = i
         result = [[0] * k for _ in range(k)]
         for i in range(1, k + 1):
